@@ -1,0 +1,120 @@
+<html>
+
+<head>
+    <title>Device and Request Dashboard</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .content {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .status h2 {
+            margin-top: 0;
+        }
+
+        .status p {
+            margin-bottom: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            margin-top: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Device and Request Dashboard</h1>
+    </div>
+    <div class="content">
+        <div class="status">
+            <h2>Device Status</h2>
+            <p>Status: {{device_status}}</p>
+        </div>
+        <div class="status">
+            <h2>Request Status</h2>
+            <p>Status: {{request_status}}</p>
+        </div>
+        {% if fog!=None %}
+        <div class="content">
+            <div class="card">
+                <h2>Fog Allocated for Edge id:{{ request.id }}</h2>
+                <p>Fog id: {{fog[0]}}</p>
+                <p>Latitude: {{fog[1]}}</p>
+                <p>Longitude: {{fog[2]}}</p>
+                <p>CPU at the moment: {{fog[3]}}</p>
+                <p>Total CPU: {{fog[6]}}</p>
+            </div>
+        </div>
+        {% endif %}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>CPU Time</th>
+                <th>Fog</th>
+            </tr>
+            {% for request in request_list %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.latitude }}</td>
+                <td>{{ request.longitude }}</td>
+                <td>{{ request.cpu }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('find_fog') }}">
+                        <input type="hidden" name="edge_id" value="{{ request.id }}">
+                        <button type="submit">Find Fog</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+</body>
+
+</html>

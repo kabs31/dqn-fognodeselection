@@ -1,0 +1,16 @@
+<html>
+    <head>Welcome to the page</head>
+    <p id="demo"></p>
+    <script while(true)>
+        var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.status != 500) {
+       document.getElementById("demo").innerHTML = xhttp.responseText;
+    }
+    
+};
+xhttp.open("GET","http://127.0.0.1:5000/getFogNode/?id=1" ,true);
+xhttp.send();
+
+    </script>
+    </html>
